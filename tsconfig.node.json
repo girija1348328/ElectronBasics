@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "CommonJS",
+    "skipLibCheck": true,
+    "moduleResolution": "Node",
+    "outDir": "./dist-react",
+    "esModuleInterop": true,
+    "strict": true,
+    "isolatedModules": true
+  },
+  "include": ["src/electron"]
+}

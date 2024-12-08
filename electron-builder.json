@@ -1,0 +1,20 @@
+{
+  "appId": "com.example.electronapp",
+  "files":["dist-electron","dist-react"],
+  "extraResources":["dist-electron/preload.cjs"],
+  "productName": "ElectronApp",
+  "win": {
+   "target":["portable","msi"]
+  },
+  "mac": {
+    "target": [
+      "dmg"
+    ]
+  },
+  "linux": {
+    "target": 
+      "AppImage",
+    "category" : "Utility"
+    
+  }
+}
