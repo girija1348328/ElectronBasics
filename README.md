@@ -16,34 +16,39 @@ This project sets up an Electron app using Vite for fast development, React for 
 1. Initialize the Vite project:
    ```bash
    npm install vite
-   
-   choose the react+typescript.
+Choose the react+typescript template.
 
+Make a UI folder where you can add all the root directory.
 
-2. Make a UI folder where you can add all the root directory.
-![folder structure](image.png)
+<img src="https://github.com/user-attachments/assets/6d357966-4db2-4ef2-b680-38e31aaa606e" width="500" height="300" />
+Make changes in the index.html file:
 
-3. make change in index.html file
-![image](https://github.com/user-attachments/assets/6d357966-4db2-4ef2-b680-38e31aaa606e)
+<img src="https://github.com/user-attachments/assets/6d357966-4db2-4ef2-b680-38e31aaa606e" width="500" height="300" />
+Remove the public folder and also remove all the necessary things present in app.js.
 
+Run the command:
 
-4. remove public folder
-  -also remove all the neccessary thing present in app.js.
+bash
+Copy code
+npm run build
+Then make changes in vite.config.ts:
 
-5. run command : npm run build.
-6. Then make changes in vite.config.ts
-![image](https://github.com/user-attachments/assets/600048e6-5c7a-4522-b246-fb17e3ad28eb)
+<img src="https://github.com/user-attachments/assets/600048e6-5c7a-4522-b246-fb17e3ad28eb" width="500" height="300" />
+Installation Electron
+Install Electron as a development dependency:
 
+bash
+Copy code
+npm install --save-dev electron
+Create an electron folder and add a file.
 
- ## **Installation Elctron**
-1. npm install --save-dev electron
-2. create electron folder and the create a file.
-3. Then add
+Then add the following Vite config in the vite.config.ts:
 
+ts
+Copy code
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   base:'./',
@@ -51,109 +56,96 @@ export default defineConfig({
     outDir:'dist-react',
   },
 })
+Update the package.json file:
 
+<img src="https://github.com/user-attachments/assets/600048e6-5c7a-4522-b246-fb17e3ad28eb" width="500" height="300" />
+Electron-builder for every device
+Install Electron Builder:
 
-4. this is the package.json update file.
-{
-  "name": "electronpractice",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "main" : "dist-electron/main",
-  "scripts": {
-    "dev:react": "vite",
-    "dev:electron": "electron .",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "transpile:electron" : "tsc --project src/  electron/tsconfig.json"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
+bash
+Copy code
+npm install --save-dev electron-builder
+Create a file named electron-builder.json:
 
-  "devDependencies": {
-    "@eslint/js": "^9.15.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "electron": "^33.2.1",
-    "eslint": "^9.15.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.14",
-    "globals": "^15.12.0",
-    "typescript": "~5.6.2",
-    "typescript-eslint": "^8.15.0",
-    "vite": "^6.0.1"
-  }
+<img src="https://github.com/user-attachments/assets/c62364c7-d68c-4c73-82af-b25da6a3d6b9" width="500" height="300" />
+Add these configurations in package.json:
+
+<img src="https://github.com/user-attachments/assets/47a65339-f87e-40ae-95ee-b137f688dfae" width="500" height="300" />
+Then run the command:
+
+bash
+Copy code
+npm run dist:win
+For Linux users:
+
+<img src="https://github.com/user-attachments/assets/0ef74fb7-312b-4397-b968-81696e1da499" width="500" height="300" />
+Here is the package.json file:
+
+<img src="https://github.com/user-attachments/assets/924e13b1-0816-4a16-b4a3-040ad37fbe96" width="500" height="300" />
+If it doesn't run and shows an error about adding an email or other information, add it in package.json:
+
+<img src="https://github.com/user-attachments/assets/1b9acda4-0e5b-43a1-a38e-b23604604f36" width="500" height="300" />
+Install the cross-env package:
+
+bash
+Copy code
+npm install cross-env
+Then create a file named util.js under the electron folder:
+
+js
+Copy code
+export function isDev() {
+  return process.env.NODE_ENV === 'development'
 }
+Then add this code in main.ts:
 
-## **Electron-builder for every device**
-install -> npm i --save-dev electron-builder
-1. make a file and name that as electron-builder.json
-![image](https://github.com/user-attachments/assets/c62364c7-d68c-4c73-82af-b25da6a3d6b9)
-
-2. add these things in package.json file.
-![image](https://github.com/user-attachments/assets/47a65339-f87e-40ae-95ee-b137f688dfae)
-
-3. then run it 
--here it is the command :  npm run dist:win for windows.
-
-4. for linux user 
-![image](https://github.com/user-attachments/assets/0ef74fb7-312b-4397-b968-81696e1da499)
-   Here is the package.json file
- ![image](https://github.com/user-attachments/assets/924e13b1-0816-4a16-b4a3-040ad37fbe96)
-
-5. If not run and showing error for add email or other thing then add in package.json file.
-![image](https://github.com/user-attachments/assets/1b9acda4-0e5b-43a1-a38e-b23604604f36)
-
-6. add package
-  npm install cross-env
-
-7. then add a file name is util.js under electron
-
-export function isDev():boolean {
-    return process.env.NODE_ENV === 'developement'
-}
-
-8. then add some line of code in main.ts
-
+ts
+Copy code
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { isDev } from './util.js';
 
-type test = string;
-
 app.on('ready', () => {
-    const mainWindow = new BrowserWindow({})
+  const mainWindow = new BrowserWindow({})
 
-    if (isDev()) {
-        mainWindow.loadURL('http://localhost:5123');
-    }
-    else {
-        mainWindow.loadFile(path.join(app.getAppPath(), '/dist-react/index.html'))
-    }
+  if (isDev()) {
+      mainWindow.loadURL('http://localhost:5123');
+  } else {
+      mainWindow.loadFile(path.join(app.getAppPath(), '/dist-react/index.html'))
+  }
+});
+Update package.json:
 
-})
+json
+Copy code
+"dev:electron": "cross-env NODE_ENV=development electron .",
+Run parallel application
+Install:
 
-9. add package.json
-"dev:electron": "cross-env NODE_ENV=developement electron .",
+bash
+Copy code
+npm install --save-dev npm-run-all
+Then change the package.json file:
 
-## **Run parallel application**
-1. install : npm i --save-dev npm-run-all
-2. then change in packagejson file 
+json
+Copy code
+"dev": "npm-run-all --parallel dev:react dev:electron",
+<img src="https://github.com/user-attachments/assets/5a03100a-af4f-46a5-8f4f-32af8772feb7" width="500" height="300" />
+Reading System Resources
+Install:
 
- "dev":"npm-run-all --parallel dev:react dev:electron",
+bash
+Copy code
+npm install --save-dev @types/os-utils
+If it doesn't work, install:
 
-![image](https://github.com/user-attachments/assets/5a03100a-af4f-46a5-8f4f-32af8772feb7)
+bash
+Copy code
+npm install --save-dev os-utils
+Then create a file named resourceManager.ts under the electron folder:
 
-## **Reading System Resources**
-1. install : npm i --save-dev @types/os-utils
-2. if its not work then install : npm i --save-dev os-utils
-3. then make a file name is resourceManager.ts under electron folder.
-4. add this code snippet for know the cpu,ram,storagedata usages
-
+ts
+Copy code
 import osUtils from 'os-utils';
 
 const POLLING_INTERVAL = 500;
@@ -161,8 +153,8 @@ const POLLING_INTERVAL = 500;
 export function pollResources() {
     setInterval(async () => {
         const cpuUsage = await getCpuUsage();
-        const ramUsage =  getRamUsage()
-       console.log({cpuUsage,ramUsage});
+        const ramUsage = getRamUsage()
+        console.log({cpuUsage,ramUsage});
     }, POLLING_INTERVAL)
 }
 
@@ -176,7 +168,7 @@ export function getStaticData(){
         cpuModel,
         totalMemoryGB
     }
-} 
+}
 
 function getCpuUsage(){
     return new Promise((resolve)=>{
@@ -185,45 +177,39 @@ function getCpuUsage(){
 }
 
 function getRamUsage(){
-    return 1-osUtils.freememPercentage();
+    return 1 - osUtils.freememPercentage();
 }
 
 function getStorageData (){
-
     const stats = fs.statfsSync(process.platform === 'win32' ? 'C://' : '/');
     const total = stats.bsize * stats.blocks;
     const free = stats.bsize * stats.bfree;
 
     return{
-        total:Math.floor(total / 1_000_000_000),
+        total: Math.floor(total / 1_000_000_000),
         usage: 1 - free / total,
     }
 }
+Communicating with UI
+Add a file pathResolver.ts:
 
-
-## **Communicating with UI**
-
-![image](https://github.com/user-attachments/assets/5f942357-8e96-4177-8538-2005e98cc335)
-
-1. add file pathResolver.ts
- 
- import path from 'path';
- import {app} from 'electron';
- import {isDev} from './util.js';
-
+ts
+Copy code
+import path from 'path';
+import { app } from 'electron';
+import { isDev } from './util.js';
 
 export function getPreloadPath(){
     return path.join(
         app.getAppPath(),
-        isDev()? '.' : '..',
+        isDev() ? '.' : '..',
         'dist-electron/preload.cjs'
-    )
+    );
 }
+Add a file preload.cts for data:
 
-
-
-2. add another file as preload.cts data here 
-
+ts
+Copy code
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("electron", {
@@ -234,7 +220,6 @@ contextBridge.exposeInMainWorld("electron", {
 
     ipcRenderer.on("statistics", listener);
 
-    // Return a cleanup function to remove the listener
     return () => {
       ipcRenderer.removeListener("statistics", listener);
     };
@@ -243,16 +228,15 @@ contextBridge.exposeInMainWorld("electron", {
     console.log("Static data requested");
   },
 });
+Update main.ts to include the preload path:
 
-3. then changes here
-
+ts
+Copy code
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { isDev } from './util.js';
-import {pollResources} from './resourceManager.js';
+import { pollResources } from './resourceManager.js';
 import { getPreloadPath } from './pathResolver.js';
-
-type test = string;
 
 app.on('ready', () => {
     const mainWindow = new BrowserWindow({
@@ -260,35 +244,32 @@ app.on('ready', () => {
             preload: getPreloadPath(),
         },
     })
-     if (isDev()) {
+
+    if (isDev()) {
         mainWindow.loadURL('http://localhost:5123');
-    }
-    else {
+    } else {
         mainWindow.loadFile(path.join(app.getAppPath(), '/dist-react/index.html'))
     }
 
     pollResources(mainWindow);
+});
+Update your React code to handle the statistics:
 
-})
+js
+Copy code
+useEffect(() => {
+  const unsubscribe = window.electron.subscribeStatistics((stats) => {
+    console.log(stats);
+  });
 
+  return () => {
+    if (unsubscribe) unsubscribe();
+  };
+}, []);
+Finally, create a global.d.ts file:
 
-4. then show put this data in main.ts
-
-  useEffect(() => {
-    // Subscribing to statistics and logging the result
-    const unsubscribe = window.electron.subscribeStatistics((stats) => {
-      console.log(stats);
-    });
-
-    // Cleanup function to unsubscribe on component unmount
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
-  }, []);
-
-
-5. and make a file global.d.ts
-
+ts
+Copy code
 export {};
 
 declare global {
