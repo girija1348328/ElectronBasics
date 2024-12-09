@@ -29,15 +29,27 @@ This project sets up an Electron app using Vite for fast development, React for 
   -also remove all the neccessary thing present in app.js.
 
 5. run command : npm run build.
-6. then make changes in vite.config.ts
-![vite.config.ts](image.png)
+6. Then make changes in vite.config.ts
+![image](https://github.com/user-attachments/assets/600048e6-5c7a-4522-b246-fb17e3ad28eb)
+
 
  ## **Installation Elctron**
 1. npm install --save-dev electron
 2. create electron folder and the create a file.
-3. Then add 
+3. Then add
 
-![main.js](image.png)
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  base:'./',
+  build:{
+    outDir:'dist-react',
+  },
+})
+
 
 4. this is the package.json update file.
 {
@@ -78,19 +90,21 @@ This project sets up an Electron app using Vite for fast development, React for 
 ## **Electron-builder for every device**
 install -> npm i --save-dev electron-builder
 1. make a file and name that as electron-builder.json
-![electron-builder.json](image.png)
+![image](https://github.com/user-attachments/assets/c62364c7-d68c-4c73-82af-b25da6a3d6b9)
 
 2. add these things in package.json file.
-![package.json](image.png)
+![image](https://github.com/user-attachments/assets/47a65339-f87e-40ae-95ee-b137f688dfae)
 
 3. then run it 
 -here it is the command :  npm run dist:win for windows.
 
 4. for linux user 
-![package.json](image.png)
+![image](https://github.com/user-attachments/assets/0ef74fb7-312b-4397-b968-81696e1da499)
+   Here is the package.json file
+ ![image](https://github.com/user-attachments/assets/924e13b1-0816-4a16-b4a3-040ad37fbe96)
 
 5. If not run and showing error for add email or other thing then add in package.json file.
-![package.json](image.png)
+![image](https://github.com/user-attachments/assets/1b9acda4-0e5b-43a1-a38e-b23604604f36)
 
 6. add package
   npm install cross-env
@@ -130,8 +144,7 @@ app.on('ready', () => {
 
  "dev":"npm-run-all --parallel dev:react dev:electron",
 
- ![package.json](image.png)
-
+![image](https://github.com/user-attachments/assets/5a03100a-af4f-46a5-8f4f-32af8772feb7)
 
 ## **Reading System Resources**
 1. install : npm i --save-dev @types/os-utils
@@ -188,7 +201,8 @@ function getStorageData (){
 
 ## **Communicating with UI**
 
-**image add**
+![image](https://github.com/user-attachments/assets/5f942357-8e96-4177-8538-2005e98cc335)
+
 1. add file pathResolver.ts
  
  import path from 'path';
