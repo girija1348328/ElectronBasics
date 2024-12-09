@@ -22,7 +22,8 @@ This project sets up an Electron app using Vite for fast development, React for 
 ![folder structure](image.png)
 
 3. make change in index.html file
-![index.html](image.png)
+![image](https://github.com/user-attachments/assets/6d357966-4db2-4ef2-b680-38e31aaa606e)
+
 
 4. remove public folder
   -also remove all the neccessary thing present in app.js.
