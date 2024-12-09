@@ -16,6 +16,7 @@ This project sets up an Electron app using Vite for fast development, React for 
 1. Initialize the Vite project:
    ```bash
    npm install vite
+   
    choose the react+typescript.
 
 2. Make a UI folder where you can add all the root directory.
