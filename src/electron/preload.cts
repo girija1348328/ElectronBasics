@@ -1,19 +1,32 @@
 import { contextBridge, ipcRenderer } from "electron";
+const electron = require('electron')
 
 contextBridge.exposeInMainWorld("electron", {
-  subscribeStatistics: (callback: (statistics: any) => void) => {
-    const listener = (_: any, stats: any) => {
+  subscribeStatistics: (callback) => {
+    ipcOn("statistics", (stats)=>{
       callback(stats);
-    };
-
-    ipcRenderer.on("statistics", listener);
+    });
 
     // Return a cleanup function to remove the listener
-    return () => {
-      ipcRenderer.removeListener("statistics", listener);
-    };
+    // return () => {
+    //   ipcRenderer.removeListener("statistics", listener);
+    // };
+
   },
-  getStaticData: () => {
-    console.log("Static data requested");
-  },
-});
+  getStaticData: () => ipcInvoke('getStaticData'),
+} satisfies Window['electron']);
+
+
+function ipcInvoke<Key extends keyof EventPayloadMapping>(
+  key:Key
+): Promise<EventPayloadMapping[Key]>{
+  return electron.ipcRenderer.invoke(key);
+}
+
+
+function ipcOn<Key extends keyof EventPayloadMapping>(
+  key:Key,
+  callback:(payload: EventPayloadMapping[Key]) => void
+){
+  electron.ipcRenderer.on(key,(_,payload) => callback(payload));
+}

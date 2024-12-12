@@ -282,3 +282,136 @@ declare global {
     };
   }
 }
+
+**type safe**
+
+1.add a type in types.d.ts
+
+type EventPayloadMapping = {
+    statistics:Statistics;
+    getStaticData:StaticData;
+}
+
+2.then add these things in util.ts
+
+export function ipcHandle<Key extends keyof EventPayloadMapping>(
+    key: Key, 
+    handler: () => EventPayloadMapping[Key]
+) {
+    ipcMain.handle(key, () => handler());
+} 
+
+3.then change in resourceManager.ts file.
+
+export function pollResources(mainWindow: BrowserWindow) {
+    setInterval(async () => {
+        const cpuUsage = await getCpuUsage();
+        const ramUsage = getRamUsage();
+        const storageData = getStorageData();
+        ipcWebContentsSend("statistics", mainWindow.webContents, {
+            cpuUsage,
+            ramUsage,
+            storageUsage: storageData.usage
+        })
+    }, POLLING_INTERVAL)
+}
+
+
+
+**above all these things to type safe in backend**
+
+## **type safe in frontend side **#
+
+1. add ipcInvoke and ipcOn in prelad.cts file.
+
+import { contextBridge, ipcRenderer } from "electron";
+const electron = require('electron')
+
+contextBridge.exposeInMainWorld("electron", {
+  subscribeStatistics: (callback) => {
+    ipcOn("statistics", (stats)=>{
+      callback(stats);
+    });
+
+    // Return a cleanup function to remove the listener
+    // return () => {
+    //   ipcRenderer.removeListener("statistics", listener);
+    // };
+
+  },
+  getStaticData: () => ipcInvoke('getStaticData'),
+} satisfies Window['electron']);
+
+
+function ipcInvoke<Key extends keyof EventPayloadMapping>(
+  key:Key
+): Promise<EventPayloadMapping[Key]>{
+  return electron.ipcRenderer.invoke(key);
+}
+
+
+function ipcOn<Key extends keyof EventPayloadMapping>(
+  key:Key,
+  callback:(payload: EventPayloadMapping[Key]) => void
+){
+  electron.ipcRenderer.on(key,(_,payload) => callback(payload));
+}
+
+
+## **events  **#
+
+1. add this function in util.js as validateEventFrame
+
+export function validateEventFrame(frame: WebFrameMain) {
+    if (!frame) {
+        throw new Error('Frame is null or undefined');
+    }
+
+    const frameUrl = frame.url; // Directly access the URL of WebFrameMain
+
+    // Check if the URL is from localhost in dev mode
+    if (isDev() && new URL(frameUrl).host === 'localhost:5123') {
+        return;
+    }
+
+    // Compare with the expected UI path
+    if (frameUrl !== pathToFileURL(getUIPath()).toString()) {
+        throw new Error('Malicious event');
+    }
+}
+
+2. some changes in this function also
+export function ipcMainHandle<Key extends keyof EventPayloadMapping>(
+    key: Key,
+    handler: () => EventPayloadMapping[Key]
+) {
+    ipcMain.handle(key, (event) => {
+        const senderFrame = event.senderFrame;
+
+        if (!senderFrame) {
+            throw new Error('senderFrame is null or undefined');
+        }
+
+        const frameUrl = senderFrame.url;
+        console.log('Event Frame URL:', frameUrl);
+        console.log('Expected UI Path:', getUIPath());
+
+        validateEventFrame(senderFrame); // Validate the frame using the updated function
+
+        handler();
+    });
+}
+
+3. for checking go to inspect
+ 
+ put -> window.electron.getStaticData()
+
+output:
+![alt text](image-1.png)
+
+4. for more checking change the port number 
+then you got a error from console.
+
+Uncaught Error: Error invoking remote method 'getStaticData': Error: Malicious event
+
+5. 
