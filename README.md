@@ -358,7 +358,7 @@ function ipcOn<Key extends keyof EventPayloadMapping>(
 }
 
 
-## **events  **#
+## **events**#
 
 1. add this function in util.js as validateEventFrame
 
